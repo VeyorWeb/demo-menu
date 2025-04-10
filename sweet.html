@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Heaven - Online Menu</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Neue', cursive, sans-serif;
+        }
+        
+        body {
+            background-color: #fff5f5;
+            color: #5a2d2d;
+            line-height: 1.6;
+        }
+        
+        /* Header Animation */
+        header {
+            background: linear-gradient(135deg, #ffb8b8 0%, #ffd3d3 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: bounceIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.3) 10px,
+                rgba(255,255,255,0.3) 20px
+            );
+            animation: candyStripe 3s linear infinite;
+        }
+        
+        @keyframes candyStripe {
+            from {
+                background-position-x: 0;
+            }
+            to {
+                background-position-x: 40px;
+            }
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            color: #5a2d2d;
+        }
+        
+        .tagline {
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: #7a4242;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: #d46a6a;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav li {
+            margin: 0 1.5rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav a:hover {
+            background-color: #ff9a9e;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        }
+        
+        nav a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 60%;
+        }
+        
+        /* Menu Sections */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .menu-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Delay animations for each section */
+        .menu-section:nth-child(1) { animation-delay: 0.2s; }
+        .menu-section:nth-child(2) { animation-delay: 0.4s; }
+        .menu-section:nth-child(3) { animation-delay: 0.6s; }
+        .menu-section:nth-child(4) { animation-delay: 0.8s; }
+        
+        h2 {
+            color: #d46a6a;
+            border-bottom: 3px dotted #ffb8b8;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        h2::before, h2::after {
+            content: "🍬";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        h2::before {
+            left: -40px;
+        }
+        
+        h2::after {
+            right: -40px;
+        }
+        
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .menu-item {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(210, 105, 105, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(210, 105, 105, 0.3);
+        }
+        
+        .item-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .menu-item:hover .item-image img {
+            transform: scale(1.1);
+        }
+        
+        .item-details {
+            padding: 1.5rem;
+        }
+        
+        .item-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #5a2d2d;
+        }
+        
+        .item-price {
+            color: #d46a6a;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        
+        .item-description {
+            color: #7a4242;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            background-color: #ffecec;
+            color: #d46a6a;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Special Items */
+        .special {
+            position: relative;
+            border: 2px dashed #d46a6a;
+        }
+        
+        .special::before {
+            content: "BESTSELLER";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #d46a6a;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 2;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(212, 106, 106, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(212, 106, 106, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(212, 106, 106, 0);
+            }
+        }
+        
+        /* New Items */
+        .new {
+            position: relative;
+        }
+        
+        .new::after {
+            content: "NEW!";
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #6ad46a;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 2;
+            animation: bounce 1s infinite alternate;
+        }
+        
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-5px);
+            }
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #5a2d2d;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: #ffb8b8;
+            transform: translateY(-3px) rotate(10deg);
+        }
+        
+        .hours {
+            margin: 1rem 0;
+            font-style: italic;
+        }
+        
+        /* Floating Candy Decorations */
+        .candy {
+            position: absolute;
+            font-size: 1.5rem;
+            z-index: -1;
+            opacity: 0.3;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 0.5rem 0;
+            }
+            
+            .menu-items {
+                grid-template-columns: 1fr;
+            }
+            
+            h2::before, h2::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating candy decorations -->
+    <div class="candy" style="top: 20%; left: 5%;">🍭</div>
+    <div class="candy" style="top: 30%; right: 8%;">🍫</div>
+    <div class="candy" style="bottom: 25%; left: 7%;">🍩</div>
+    <div class="candy" style="bottom: 15%; right: 5%;">🍪</div>
+    
+    <header>
+        <h1>Sweet Heaven</h1>
+        <p class="tagline">Where every bite is pure happiness!</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#cakes">Cakes</a></li>
+            <li><a href="#pastries">Pastries</a></li>
+            <li><a href="#candies">Candies</a></li>
+            <li><a href="#drinks">Sweet Drinks</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="cakes" class="menu-section">
+            <h2>Delicious Cakes</h2>
+            <div class="menu-items">
+                <div class="menu-item special">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d" alt="Chocolate Cake">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Chocolate Fudge Cake</span>
+                            <span class="item-price">$24.99</span>
+                        </div>
+                        <p class="item-description">Rich chocolate cake with layers of fudge and chocolate ganache.</p>
+                        <div class="item-tags">
+                            <span class="tag">Contains Nuts</span>
+                            <span class="tag">Gluten-Free Option</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item new">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1552689486-f6773047d19f" alt="Cheesecake">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Strawberry Cheesecake</span>
+                            <span class="item-price">$22.99</span>
+                        </div>
+                        <p class="item-description">Creamy New York style cheesecake with fresh strawberry topping.</p>
+                        <div class="item-tags">
+                            <span class="tag">Vegetarian</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b" alt="Red Velvet Cake">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Red Velvet Cake</span>
+                            <span class="item-price">$26.99</span>
+                        </div>
+                        <p class="item-description">Classic red velvet with cream cheese frosting and sprinkles.</p>
+                        <div class="item-tags">
+                            <span class="tag">Vegetarian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="pastries" class="menu-section">
+            <h2>Yummy Pastries</h2>
+            <div class="menu-items">
+                <div class="menu-item special">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d" alt="Croissant">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Chocolate Croissant</span>
+                            <span class="item-price">$4.99</span>
+                        </div>
+                        <p class="item-description">Buttery, flaky croissant filled with rich chocolate.</p>
+                        <div class="item-tags">
+                            <span class="tag">Fresh Daily</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item new">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1627834377411-8da5f4f09de8" alt="Danish">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Berry Danish</span>
+                            <span class="item-price">$5.49</span>
+                        </div>
+                        <p class="item-description">Flaky pastry with cream cheese and mixed berry filling.</p>
+                        <div class="item-tags">
+                            <span class="tag">Seasonal</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1627308579747-9e5f0f27d8c6" alt="Eclair">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Chocolate Éclair</span>
+                            <span class="item-price">$5.99</span>
+                        </div>
+                        <p class="item-description">Choux pastry filled with vanilla cream and topped with chocolate.</p>
+                        <div class="item-tags">
+                            <span class="tag">French Classic</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="candies" class="menu-section">
+            <h2>Colorful Candies</h2>
+            <div class="menu-items">
+                <div class="menu-item new">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1604187351574-c75ca79f5807" alt="Gummy Bears">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Gummy Bear Mix</span>
+                            <span class="item-price">$8.99/lb</span>
+                        </div>
+                        <p class="item-description">Assorted fruit-flavored gummy bears in five delicious flavors.</p>
+                        <div class="item-tags">
+                            <span class="tag">Vegan Option</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item special">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1603532648955-039310d9ed75" alt="Chocolates">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Assorted Chocolates</span>
+                            <span class="item-price">$12.99/lb</span>
+                        </div>
+                        <p class="item-description">Handmade chocolates with various fillings and toppings.</p>
+                        <div class="item-tags">
+                            <span class="tag">House Specialty</span>
+                            <span class="tag">Contains Nuts</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1608248544923-768f20c7aad6" alt="Lollipops">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Giant Lollipops</span>
+                            <span class="item-price">$3.99 each</span>
+                        </div>
+                        <p class="item-description">Colorful swirl lollipops in various fruity flavors.</p>
+                        <div class="item-tags">
+                            <span class="tag">Kid Favorite</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="drinks" class="menu-section">
+            <h2>Sweet Drinks</h2>
+            <div class="menu-items">
+                <div class="menu-item special">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5" alt="Milkshake">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Oreo Milkshake</span>
+                            <span class="item-price">$6.99</span>
+                        </div>
+                        <p class="item-description">Creamy vanilla milkshake with crushed Oreo cookies.</p>
+                        <div class="item-tags">
+                            <span class="tag">Signature Drink</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" alt="Hot Chocolate">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Gourmet Hot Chocolate</span>
+                            <span class="item-price">$5.49</span>
+                        </div>
+                        <p class="item-description">Rich hot chocolate with whipped cream and chocolate shavings.</p>
+                        <div class="item-tags">
+                            <span class="tag">Seasonal</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-item new">
+                    <div class="item-image">
+                        <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699" alt="Bubble Tea">
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">
+                            <span>Bubble Tea</span>
+                            <span class="item-price">$5.99</span>
+                        </div>
+                        <p class="item-description">Choose from milk tea, fruit tea or smoothie with tapioca pearls.</p>
+                        <div class="item-tags">
+                            <span class="tag">New!</span>
+                            <span class="tag">Customizable</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <h3>Sweet Heaven</h3>
+            <p>123 Candy Lane, Sugartown • (555) 123-4567</p>
+            <div class="hours">
+                <p>Monday-Friday: 9am-9pm</p>
+                <p>Saturday-Sunday: 10am-10pm</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <p>&copy; 2023 Sweet Heaven. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</body>
+</html>
